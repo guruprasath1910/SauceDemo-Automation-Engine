@@ -7,6 +7,8 @@ public class LoginPage
     private final String passwordInput = "#password";
     private final String loginButton = "#login-button";
     private final String errorMessage = "h3[data-test='error']";
+    private final String menuButton = "#react-burger-menu-btn";
+    private final String logoutLink = "#logout_sidebar_link";
 
     public LoginPage(Page page)
     {
@@ -28,5 +30,11 @@ public class LoginPage
     public String getErrorMessageText()
     {
         return page.textContent(errorMessage);
+    }
+
+    public void logout()
+    {
+        page.click(menuButton);
+        page.click(logoutLink);
     }
 }

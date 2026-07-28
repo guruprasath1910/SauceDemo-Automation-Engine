@@ -27,4 +27,25 @@ public class LoginTest extends BaseTest
         Assert.assertTrue(error.contains("Username and password do not match"), "Expected error message not displayed.");
 
     }
+
+    @Test(priority= 3)
+    public void testLockedOutUserLogin()
+    {
+        LoginPage loginPage = new LoginPage(page);
+        loginPage.navigateTo();
+
+        loginPage.login("locked_out_user", "secret_sauce");
+        String error = loginPage.getErrorMessageText();
+        Assert.assertTrue(error.contains("Sorry, this user has been locked out"), "Expected lockout error message not displayed.");
+    }
+
+    @Test(priority= 4)
+    public void testLogout()
+    {
+        LoginPage loginPage = new LoginPage(page);
+        loginPage.navigateTo();
+        loginPage.login("standard_user", "secret_sauce");
+        loginPage.logout();
+        Assert.assertTrue(page.url().equals("https://www.saucedemo.com/"),"Logout failed: user was not redirected to the login page.");
+    }
 }
