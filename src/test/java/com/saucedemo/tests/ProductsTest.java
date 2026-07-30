@@ -79,4 +79,34 @@ public class ProductsTest extends BaseTest
 
         Assert.assertEquals(prices, sortedDescending, "Prices are not sorted high to low correctly.");
     }
+
+    @Test(priority = 5)
+    public void testProductCount()
+    {
+        LoginPage loginPage = new LoginPage(page);
+        loginPage.navigateTo();
+        loginPage.login("standard_user", "secret_sauce");
+
+        ProductsPage productsPage = new ProductsPage(page);
+        int count = productsPage.getProductCount();
+
+        Assert.assertEquals(count, 6, "Expected 6 products on the inventory page, but found a different count.");
+    }
+
+    @Test(priority = 6)
+    public void testAddItemToCart()
+    {
+        LoginPage loginPage = new LoginPage(page);
+        loginPage.navigateTo();
+        loginPage.login("standard_user", "secret_sauce");
+
+        ProductsPage productsPage = new ProductsPage(page);
+        productsPage.addFirstProductToCart();
+
+        String buttonText = productsPage.getFirstProductButtonText();
+        Assert.assertEquals(buttonText, "Remove", "Button text did not change to 'Remove' after adding to cart.");
+
+        String badgeCount = productsPage.getCartBadgeCount();
+        Assert.assertEquals(badgeCount, "1", "Cart badge did not show '1' after adding an item.");
+    }
 }

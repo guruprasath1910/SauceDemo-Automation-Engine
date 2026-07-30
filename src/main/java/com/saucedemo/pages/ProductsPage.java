@@ -9,6 +9,9 @@ public class ProductsPage
     private final String sortDropdown = "[data-test='product-sort-container']";
     private final String productNames = "[data-test='inventory-item-name']";
     private final String productPrices = "[data-test='inventory-item-price']";
+    private final String productItems = "[data-test='inventory-item']";
+    private final String firstAddToCartButton = ".inventory_item button";
+    private final String cartBadge = ".shopping_cart_badge";
 
     public ProductsPage(Page page)
     {
@@ -28,6 +31,25 @@ public class ProductsPage
                 .stream()
                 .map(price -> Double.parseDouble(price.replace("$", "")))
                 .collect(Collectors.toList());
+    }
+    public int getProductCount()
+    {
+        return page.locator(productItems).count();
+    }
+
+    public String getFirstProductButtonText()
+    {
+        return page.locator(firstAddToCartButton).first().textContent();
+    }
+
+    public void addFirstProductToCart()
+    {
+        page.locator(firstAddToCartButton).first().click();
+    }
+
+    public String getCartBadgeCount()
+    {
+        return page.locator(cartBadge).textContent();
     }
 
 }
