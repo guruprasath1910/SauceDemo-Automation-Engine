@@ -29,4 +29,5 @@ public class ProductsPage
                 .map(price -> Double.parseDouble(price.replace("$", "")))
                 .collect(Collectors.toList());
     }
+
 }

@@ -61,4 +61,22 @@ public class ProductsTest extends BaseTest
 
         Assert.assertEquals(prices, sortedAscending, "Prices are not sorted low to high correctly.");
     }
+
+    @Test(priority = 4)
+    public void testSortPriceHighToLow()
+    {
+        LoginPage loginPage = new LoginPage(page);
+        loginPage.navigateTo();
+        loginPage.login("standard_user", "secret_sauce");
+
+        ProductsPage productsPage = new ProductsPage(page);
+        productsPage.sortBy("hilo");
+
+        List<Double> prices = productsPage.getProductPrices();
+        List<Double> sortedDescending = prices.stream()
+                .sorted(Collections.reverseOrder())
+                .collect(Collectors.toList());
+
+        Assert.assertEquals(prices, sortedDescending, "Prices are not sorted high to low correctly.");
+    }
 }
