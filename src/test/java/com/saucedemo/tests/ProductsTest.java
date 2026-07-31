@@ -109,4 +109,18 @@ public class ProductsTest extends BaseTest
         String badgeCount = productsPage.getCartBadgeCount();
         Assert.assertEquals(badgeCount, "1", "Cart badge did not show '1' after adding an item.");
     }
+
+    @Test(priority = 7)
+    public void testAddMultipleItemsToCart()
+    {
+        LoginPage loginPage = new LoginPage(page);
+        loginPage.navigateTo();
+        loginPage.login("standard_user", "secret_sauce");
+
+        ProductsPage productsPage = new ProductsPage(page);
+        productsPage.addProductsToCart(3);
+
+        String badgeCount = productsPage.getCartBadgeCount();
+        Assert.assertEquals(badgeCount, "3", "Cart badge count did not match number of items added to cart.");
+    }
 }

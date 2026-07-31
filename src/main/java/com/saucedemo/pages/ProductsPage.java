@@ -1,4 +1,5 @@
 package com.saucedemo.pages;
+import com.microsoft.playwright.Locator;
 import com.microsoft.playwright.Page;
 import java.util.List;
 import java.util.stream.Collectors;
@@ -45,6 +46,15 @@ public class ProductsPage
     public void addFirstProductToCart()
     {
         page.locator(firstAddToCartButton).first().click();
+    }
+
+    public void addProductsToCart(int count)
+    {
+        Locator buttons = page.locator(firstAddToCartButton);
+        for (int i = 0; i < count; i++)
+        {
+            buttons.nth(i).click();
+        }
     }
 
     public String getCartBadgeCount()
