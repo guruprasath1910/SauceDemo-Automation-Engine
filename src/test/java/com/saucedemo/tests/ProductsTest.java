@@ -118,7 +118,12 @@ public class ProductsTest extends BaseTest
         loginPage.login("standard_user", "secret_sauce");
 
         ProductsPage productsPage = new ProductsPage(page);
-        productsPage.addProductsToCart(3);
+        productsPage.resetAppState(); // clears any cart state left by earlier tests in this class
+        productsPage.addProductsToCart(
+                "sauce-labs-backpack",
+                "sauce-labs-bike-light",
+                "sauce-labs-bolt-t-shirt"
+        );
 
         String badgeCount = productsPage.getCartBadgeCount();
         Assert.assertEquals(badgeCount, "3", "Cart badge count did not match number of items added to cart.");

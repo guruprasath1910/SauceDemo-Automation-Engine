@@ -13,10 +13,21 @@ public class ProductsPage
     private final String productItems = "[data-test='inventory-item']";
     private final String firstAddToCartButton = ".inventory_item button";
     private final String cartBadge = ".shopping_cart_badge";
+    private final String menuButton = "#react-burger-menu-btn";
+    private final String resetLink = "#reset_sidebar_link";
+    private final String closeMenuButton = "#react-burger-cross-btn";
 
     public ProductsPage(Page page)
     {
         this.page = page;
+    }
+    public void resetAppState()
+    {
+        page.click(menuButton);
+        page.click(resetLink);
+        page.click(closeMenuButton);
+        page.reload();
+        page.waitForSelector(firstAddToCartButton);
     }
     public void sortBy(String option)
     {
@@ -48,12 +59,16 @@ public class ProductsPage
         page.locator(firstAddToCartButton).first().click();
     }
 
-    public void addProductsToCart(int count)
+    public void addProductToCartBySlug(String productSlug)
     {
-        Locator buttons = page.locator(firstAddToCartButton);
-        for (int i = 0; i < count; i++)
+        page.click("[data-test='add-to-cart-" + productSlug + "']");
+    }
+
+    public void addProductsToCart(String... productSlugs)
+    {
+        for (String slug : productSlugs)
         {
-            buttons.nth(i).click();
+            addProductToCartBySlug(slug);
         }
     }
 
