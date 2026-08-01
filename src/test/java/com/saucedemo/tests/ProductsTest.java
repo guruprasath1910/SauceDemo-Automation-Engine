@@ -128,4 +128,24 @@ public class ProductsTest extends BaseTest
         String badgeCount = productsPage.getCartBadgeCount();
         Assert.assertEquals(badgeCount, "3", "Cart badge count did not match number of items added to cart.");
     }
+
+    @Test(priority = 8)
+    public void testRemoveItemFromCart()
+    {
+        LoginPage loginPage = new LoginPage(page);
+        loginPage.navigateTo();
+        loginPage.login("standard_user", "secret_sauce");
+
+        ProductsPage productsPage = new ProductsPage(page);
+        productsPage.resetAppState(); // start from a clean cart, independent of earlier tests
+
+        productsPage.addProductToCartBySlug("sauce-labs-backpack");
+        String badgeAfterAdd = productsPage.getCartBadgeCount();
+        Assert.assertEquals(badgeAfterAdd, "1", "Cart badge did not show '1' after adding the item.");
+
+        productsPage.removeProductFromCartBySlug("sauce-labs-backpack");
+        boolean badgeVisibleAfterRemove = productsPage.isCartBadgeVisible();
+        Assert.assertFalse(badgeVisibleAfterRemove, "Cart badge should disappear after removing the only item in the cart.");
+    }
+
 }

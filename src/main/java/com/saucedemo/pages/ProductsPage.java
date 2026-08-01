@@ -72,6 +72,18 @@ public class ProductsPage
         }
     }
 
+    public void removeProductFromCartBySlug(String productSlug)
+    {
+        page.click("[data-test='remove-" + productSlug + "']");
+        page.locator(cartBadge).waitFor(new Locator.WaitForOptions()
+                .setState(com.microsoft.playwright.options.WaitForSelectorState.HIDDEN));
+    }
+
+    public boolean isCartBadgeVisible()
+    {
+        return page.locator(cartBadge).isVisible();
+    }
+
     public String getCartBadgeCount()
     {
         return page.locator(cartBadge).textContent();
